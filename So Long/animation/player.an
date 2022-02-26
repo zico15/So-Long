@@ -1,0 +1,9 @@
+STOPPED: none;
+WALKING_W: 12,13,14,15;
+WALKING_S: 0,1,2,3;
+WALKING_A: 4,5,6,7;
+WALKING_D: 8,9,10,11;
+ATTACK_A: none;
+ATTACK_B: none;
+ATTACK_C: none;
+DEAD: none;

@@ -1,0 +1,21 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../../Downloads/minilibx"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"ft_so_long.h": "c",
+			"ft_sprites.h": "c",
+			"ios": "c",
+			"mlx.h": "c",
+			"chrono": "c",
+			"ft_object.h": "c",
+			"stdlib.h": "c"
+		}
+	}
+}
