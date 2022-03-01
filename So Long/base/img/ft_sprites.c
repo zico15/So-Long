@@ -6,7 +6,7 @@
 /*   By: edos-san <edos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 19:19:45 by edos-san          #+#    #+#             */
-/*   Updated: 2022/02/26 18:30:56 by edos-san         ###   ########.fr       */
+/*   Updated: 2022/02/27 00:50:41 by edos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,10 @@ static void	set_pixel(char	*des, char	*or)
 	des[3] = or[3];
 }
 
-static void	cread_sprites(t_image *o, t_image *c, int i, t_object *ob)
+void	cread_sprites(t_image *o, t_image *c, int i, t_object *ob)
 {
-
-	o->y_o = 0;
 	o->x_o = 0;
+	o->y_o = 0;
 	while (++i < ob->sprite.size)
 	{
 		o->y = -1;
@@ -34,14 +33,14 @@ static void	cread_sprites(t_image *o, t_image *c, int i, t_object *ob)
 				&c->bits, &c->size, &c->endian);
 		while (++o->y < o->size_h)
 		{
+			o->x = -1;
 			while (++o->x < o->size_w)
 				set_pixel(&c->pixels[o->x * 4 + c->size * o->y], &o->\
-				pixels[(o->x + (o->x_o * 64)) * 4 + o->size * (o->y + \
-				(o->y_o * 64))]);
-			o->x = -1;
+				pixels[(o->x + (o->x_o * o->size_w)) * 4 + o->size * (o->y + \
+				(o->y_o * o->size_h))]);
 		}
 		o->x_o++;
-		if ((o->x_o * 64) >= o->width)
+		if ((o->x_o * o->size_w) >= o->width)
 		{
 			o->x_o = 0;
 			o->y_o++;
@@ -65,6 +64,11 @@ void	load_sprites(t_object *ob, char *path, int size_w, int size_h)
 	ob->sprite.index = 0;
 	ob->sprite.size = (o.width / size_w) * (o.height / size_h);
 	ob->sprite.imgs = malloc(ob->sprite.size * sizeof(void *));
+	if (!ob->sprite.imgs)
+	{
+		perror(path);
+		return ;
+	}
 	o.pixels = mlx_get_data_addr(o.img, &o.bits, &o.size, &o.endian);
 	o.size_w = size_w;
 	o.size_h = size_h;

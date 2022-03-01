@@ -6,7 +6,7 @@
 /*   By: edos-san <edos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 14:46:48 by edos-san          #+#    #+#             */
-/*   Updated: 2022/02/26 18:41:14 by edos-san         ###   ########.fr       */
+/*   Updated: 2022/03/01 14:13:07 by edos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 void	ft_render_object(t_object *ob, void	*img)
 {
-	//ft_render_map();
 	if (ob && img)
+	{
 		mlx_put_image_to_window(engine()->ptr,
-			engine()->win, img, ob->x, ob->y);
+			engine()->win, img, (ob->x), ob->y);
+	}
 }
 
 void	ft_render_map(void)
@@ -27,19 +28,34 @@ void	ft_render_map(void)
 
 	x = -1;
 	y = -1;
+	mlx_put_image_to_window(engine()->ptr, engine()->win,
+		get_scene()->background, 0, 0);
 	if (get_scene()->map != 0)
 	{
 		while (++x < get_scene()->map->this->w)
 		{
 			y = -1;
 			while (++y < get_scene()->map->this->h)
-				mlx_put_image_to_window(engine()->ptr, engine()->win,
-					get_scene()->map->map[x][y], (x * 64), (y * 64));
+				if (get_scene()->map->map[x][y])
+					mlx_put_image_to_window(engine()->ptr, engine()->win,
+						get_scene()->map->map[x][y],
+						(get_scene()->x + x * engine()->scale),
+						(get_scene()->y + y * engine()->scale));
 		}
 	}
-	/*if (get_scene()->background)
+}
+
+void	ft_render_map_position(t_object *ob)
+{
+	int	x;
+	int	y;
+
+	x = ob->x / engine()->scale;
+	y = ob->y / engine()->scale;
+	if (0 && get_scene()->map)
 		mlx_put_image_to_window(engine()->ptr, engine()->win,
-			get_scene()->background, 0, 0);*/
+			get_scene()->map->map[x][y],
+			x * engine()->scale, y * engine()->scale);
 }
 
 void	ft_render_animation(t_object *ob)
@@ -50,17 +66,23 @@ void	ft_render_animation(t_object *ob)
 	if (ob->animator.time < ob->animator.time_max)
 		return ;
 	ob->animator.time = 0;
+	ft_printf("A\n");
 	if (ob->animator.animation && ob->animator.is_animation)
 	{
-		ob->animator.animation->img_selct = ob->animator
-			.animation->img_selct->next;
+		ft_printf("B\n");
+		if (ob->animator.animation->img_selct)
+			ob->animator.animation->img_selct = ob->animator
+				.animation->img_selct->next;
 		if (!ob->animator.animation->img_selct)
 		{
+			ft_printf("C\n");
 			ob->animator.animation->img_selct = ob->animator.animation->img;
 			ob->animator.is_animation = ob->animator.animation->is_repeat;
 		}
-		ft_render_object(ob, ob->animator.animation->img_selct);
+		ob->render(ob, ob->animator.animation->img_selct);
 	}
 	else if (ob->animator.animation)
-		ft_render_object(ob, ob->animator.animation->img_selct);
+		ob->render(ob, ob->animator.animation->img_selct);
+	else if (ob->sprite.imgs)
+		ob->render(ob, ob->animator.list[STOPPED].img);
 }

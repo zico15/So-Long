@@ -26,9 +26,10 @@ typedef struct s_array
 {
 	t_element			*begin;
 	t_element			*end;
+	t_element			*next;
 	int					size;
 	struct s_element	*(*add)(struct s_array *a, char	*value);
-	void				*(*get)(struct s_array *a, int	index);
+	char				*(*get)(struct s_array *a, int	index);
 	struct s_element	*(*remove)(struct s_array *a, t_element	*e);
 	struct s_array		*(*destroy)(struct s_array **a);
 }	t_array;

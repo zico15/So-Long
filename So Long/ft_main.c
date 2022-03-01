@@ -6,7 +6,7 @@
 /*   By: edos-san <edos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 18:50:11 by edos-san          #+#    #+#             */
-/*   Updated: 2022/02/26 18:37:59 by edos-san         ###   ########.fr       */
+/*   Updated: 2022/03/01 14:16:10 by edos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,23 @@
 
 void	game_exit(void)
 {
-	mlx_destroy_window(engine()->ptr, engine()->win);
+	t_object	*ob;
+	t_object	*temp;
+
+	engine()->is_load_full = 0;
+	if (get_scene())
+	{
+		ob = get_scene()->objects;
+		while (ob)
+		{
+			temp = ob;
+			ob = ob->next;
+			temp->destroy(temp);
+		}
+		ft_destroy_map(get_scene()->map);
+	}
+	if (engine()->ptr && engine()->win)
+		mlx_destroy_window(engine()->ptr, engine()->win);
 	exit(-1);
 }
 
@@ -28,16 +44,24 @@ static void	init_components(t_engine *e)
 	scene = new_scene();
 	if (!e || !scene)
 		return ;
-	scene->player = new_player("images/player.xpm", 64, 64);
+	scene->x = 0;
+	scene->y = 32;
+	scene->map = new_map("images/map.xpm", 32, 32, scene);
+	scene->add(scene, new_menu("images/icones.xpm", 32, 32), 0, -30);
 	e->load(scene);
 	init_events();
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
 	static float	fps;
 
-	instance_engine();
+	if (argc <= 1)
+	{
+		perror("invalid argument");
+		return (0);
+	}
+	instance_engine(argv[1]);
 	init_components(engine());
 	mlx_loop_hook(engine()->ptr, engine_loop, &fps);
 	mlx_loop(engine()->ptr);

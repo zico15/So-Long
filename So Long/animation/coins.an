@@ -1,9 +1,9 @@
-STOPPED: none;
-WALKING_W: none;
-WALKING_S: 9,2,3,R;
-WALKING_A: none;
-WALKING_D: none;
-ATTACK_A: none;
-ATTACK_B: none;
-ATTACK_C: none;
+STOPPED: 0,1,2,R;
+WALKING_W: 0,1,2,R;
+WALKING_S: 0,1,2;
+WALKING_A: 0,1,2,R;
+WALKING_D: 0,1,2,R;
+ATTACK_A: 0,1,2,R;
+ATTACK_B: 0,1,2,R;
+ATTACK_C: 0,1,2,R;
 DEAD: none;

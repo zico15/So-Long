@@ -6,7 +6,7 @@
 /*   By: edos-san <edos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 19:26:59 by edos-san          #+#    #+#             */
-/*   Updated: 2022/02/26 18:30:20 by edos-san         ###   ########.fr       */
+/*   Updated: 2022/02/27 13:14:48 by edos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,22 @@ typedef enum s_type_animation
 	ATTACK_A,
 	ATTACK_B,
 	ATTACK_C,
-	DEAD
+	DEAD,
+	NONE
 }	t_type_animation;
+
+typedef enum s_type_object
+{
+	EMPTY,
+	WALL,
+	COLLECTIBLE,
+	EXIT,
+	PLAYER,
+	ENEMY,
+	NONE_A,
+	NONE_B,
+	DEAD_A
+}	t_type_object;
 
 typedef struct s_mlx_img_list
 {

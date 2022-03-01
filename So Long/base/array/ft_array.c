@@ -11,14 +11,18 @@
 /* ************************************************************************** */
 
 #include "./../../headers/ft_array.h"
+#include "./../../headers/ft_so_long.h"
 
 static t_element	*add_element(struct s_array *a, char *value)
 {
 	t_element	*e;
 
-	e = malloc(sizeof(e) * ((a != 0) - (a == 0)));
+	if (!a || !value || !*value)
+		return (0);
+	e = malloc_ob("add_element", sizeof(e) * ((a != 0) - (a == 0)));
 	if (!e)
 		return (0);
+	e->value = 0;
 	e->value = value;
 	e->next = 0;
 	a->size++;
@@ -35,7 +39,7 @@ static t_element	*add_element(struct s_array *a, char *value)
 	return (e);
 }
 
-static void	*get_element(struct s_array *a, int index)
+static char	*get_element(struct s_array *a, int index)
 {
 	int			i;
 	t_element	*e;
@@ -107,7 +111,7 @@ struct s_array	*new_array(void)
 {
 	t_array	*a;
 
-	a = malloc(sizeof(a) * 1);
+	a = malloc_ob("new_array", sizeof(t_array));
 	if (a)
 	{
 		a->size = 0;

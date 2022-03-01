@@ -6,7 +6,7 @@
 #    By: edos-san <edos-san@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 18:43:51 by edos-san          #+#    #+#              #
-#    Updated: 2022/02/26 15:31:00 by edos-san         ###   ########.fr        #
+#    Updated: 2022/03/01 12:50:22 by edos-san         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,8 @@ SRCS		= 		ft_main.c	\
 					./base/engine/ft_engine.c  \
 					./base/engine/ft_render.c  \
 					./base/engine/ft_scene.c  \
+					./base/engine/ft_map.c  \
+					./base/engine/ft_collision.c  \
 					./base/engine/ft_get_base.c  \
 					./base/array/ft_array.c  \
 					./base/file/ft_file.c  \
@@ -22,7 +24,8 @@ SRCS		= 		ft_main.c	\
 					./base/event/ft_events.c \
 					./base/object/ft_object.c \
 					./base/object/ft_player.c \
-					./base/object/ft_title_map.c
+					./base/object/ft_title_map.c \
+					./base/object/ft_menu.c
 
 OBJS		= 		$(SRCS:.c=.o)
 

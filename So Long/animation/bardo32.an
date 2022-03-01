@@ -6,4 +6,4 @@ WALKING_D: 8,9,10,11;
 ATTACK_A: none;
 ATTACK_B: none;
 ATTACK_C: none;
-DEAD: 11;
+DEAD: none;

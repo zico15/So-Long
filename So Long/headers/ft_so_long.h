@@ -6,7 +6,7 @@
 /*   By: edos-san <edos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 18:47:13 by edos-san          #+#    #+#             */
-/*   Updated: 2022/02/26 17:46:32 by edos-san         ###   ########.fr       */
+/*   Updated: 2022/03/01 13:00:48 by edos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include "ft_object.h"
 
 # define __NULL__	0
-# define _TIME_FTP_ 30
+# define _TIME_FTP_ 12
 # define _SIZE_BLOCK_ 64
 
 typedef enum e_type
@@ -34,18 +34,6 @@ typedef enum e_type
 	SCENE,
 	ENGINE
 }	t_type;
-
-typedef struct s_scene
-{
-	int					id;
-	void				*background;
-	struct s_title_map	*map;
-	t_object			*objects;
-	t_object			*player;
-	int					(*load)(struct s_scene *scene);
-	int					(*unload)(struct s_scene *scene);
-	int					(*updade)(int fps);
-}	t_scene;
 
 typedef struct s_engine
 {
@@ -56,6 +44,11 @@ typedef struct s_engine
 	char			scale;
 	void			*ptr;
 	void			*win;
+	int				sleep;
+	int				collectibles;
+	int				collected;
+	int				steps;
+	t_array			*list;
 	int				(*load)(struct s_scene *scene);
 	int				(*clean)(struct s_scene *scene);
 	struct s_scene	*scene;
@@ -65,6 +58,7 @@ typedef struct s_engine
 void			ft_render_map(void);
 void			ft_render_object(t_object *ob, void	*img);
 void			ft_render_animation(t_object *ob);
+void			ft_render_map_position(t_object *ob);
 
 //				scene
 struct s_scene	*get_scene(void);
@@ -88,7 +82,13 @@ int				file_clean(char *paths);
 int				engine_loop(float	*fps);
 int				engine_render(float fps);
 int				engine_updade(float fps);
-void			instance_engine(void);
+void			instance_engine(char *path);
 t_engine		*engine(void);
 int				strn_to_int(char **v, int n, int *is_number, int *is_repeat);
+int				free_ob(void **v);
+void			ft_destroy_map(t_title_map *map);
+t_object		*ft_collision(t_object *ob, int x, int y);
+void			*malloc_ob(const char *erro, int size);
+int				load_file_map(int fd);
+void			instance_object(t_title_map *map, int x, int y, t_scene *scene);
 #endif
