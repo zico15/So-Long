@@ -73,7 +73,7 @@ static t_element	*remove_element(struct s_array *a, t_element	*e)
 				a->begin = b->next;
 			else
 				t->next = b->next;
-			free(b);
+			free_ob((void **) &b);
 			a->size--;
 			if (!a->size)
 				a->end = 0;
@@ -100,9 +100,9 @@ static t_array	*destroy(struct s_array **a)
 		e = b;
 		b = b->next;
 		if (e)
-			free(e);
+			free_ob((void **) e);
 	}
-	free((*a));
+	free_ob((void **) *a);
 	(*a) = NULL;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: edos-san <edos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 18:47:13 by edos-san          #+#    #+#             */
-/*   Updated: 2022/03/01 13:00:48 by edos-san         ###   ########.fr       */
+/*   Updated: 2022/03/04 20:53:09 by edos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ typedef struct s_engine
 	int				collectibles;
 	int				collected;
 	int				steps;
+	int				malloc_ob;
+	int				free_ob;
 	t_array			*list;
 	int				(*load)(struct s_scene *scene);
 	int				(*clean)(struct s_scene *scene);
@@ -74,7 +76,7 @@ void			set_animation(t_object *ob, t_type_animation type);
 void			stop_animation(t_object *ob);
 
 //				file
-char			*get_next_line(int fd);
+int				get_next_line(int fd, char **line);
 int				file_write(int fd, char *line, int is_free);
 int				file_clean(char *paths);
 
@@ -82,7 +84,7 @@ int				file_clean(char *paths);
 int				engine_loop(float	*fps);
 int				engine_render(float fps);
 int				engine_updade(float fps);
-void			instance_engine(char *path);
+void			init_engine(char *path);
 t_engine		*engine(void);
 int				strn_to_int(char **v, int n, int *is_number, int *is_repeat);
 int				free_ob(void **v);

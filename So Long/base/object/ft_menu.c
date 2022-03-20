@@ -6,7 +6,7 @@
 /*   By: edos-san <edos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 13:45:53 by edos-san          #+#    #+#             */
-/*   Updated: 2022/03/01 14:18:46 by edos-san         ###   ########.fr       */
+/*   Updated: 2022/03/19 19:10:42 by edos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ t_object	*new_menu(char *path, int w, int h)
 {
 	t_object	*ob;
 
-	ft_printf("menu: ");
 	ob = new_obj(path, w, h, EMPTY);
 	ob->render = ft_render_menu;
 	ob->animator.animation = 0;

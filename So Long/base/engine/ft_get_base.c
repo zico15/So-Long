@@ -6,7 +6,7 @@
 /*   By: edos-san <edos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 13:35:10 by edos-san          #+#    #+#             */
-/*   Updated: 2022/02/28 21:01:57 by edos-san         ###   ########.fr       */
+/*   Updated: 2022/03/04 21:16:53 by edos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	free_ob(void **v)
 	{
 		free(*v);
 		*v = 0;
+		engine()->free_ob++;
 		return (1);
 	}
 	return (0);
@@ -67,17 +68,6 @@ void	*malloc_ob(const char *erro, int size)
 		perror(erro);
 		game_exit();
 	}
+	engine()->malloc_ob++;
 	return (v);
-}
-
-void	teste(struct s_object *o)
-{
-	static int	i;
-
-	engine()->is_load_full = 0;//!engine()->is_load_full;
-	ft_printf("render(o, o->sprite.imgs[%i])\n", i);
-	ft_render_map();
-	o->render(o, o->sprite.imgs[i]);
-	if (++i >= o->sprite.size)
-		i = 0;
 }

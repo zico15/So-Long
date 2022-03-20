@@ -6,7 +6,7 @@
 /*   By: edos-san <edos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:44:08 by edos-san          #+#    #+#             */
-/*   Updated: 2022/03/01 14:07:28 by edos-san         ###   ########.fr       */
+/*   Updated: 2022/03/05 16:53:53 by edos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,13 @@ void	instance_object(t_title_map *map, int x, int y, t_scene *scene)
 	if (i == '1')
 		scene->add(scene, new_obj(0, 32, 32, WALL), x, y);
 	else if (i == 'C')
-		scene->add(scene, new_obj("images/coins.xpm", 32, 32, COLLECTIBLE), x, y);
-	else if (i == 'P')
 	{
-		scene->add(scene, new_player("images/bardo64_1_.xpm", 32, 64), x, y);
-		ft_printf("TI-> %c x: %i  Y: %i\n", i, x, y);
+		scene->add(scene, new_obj("images/coins.xpm", 32, 32, 2), x, y);
 	}
+	else if (i == 'P')
+		scene->add(scene, new_player("images/bardo64_1_.xpm", 32, 64), x, y);
 }
-//
+
 int	load_file_map(int fd)
 {
 	int		size;
@@ -71,7 +70,7 @@ int	load_file_map(int fd)
 	str = 0;
 	engine()->list = new_array();
 	ft_printf("load_file_map\n");
-	str = get_next_line(fd);
+	get_next_line(fd, &str);
 	size = ft_strlen(str);
 	while (str && *str)
 	{
@@ -84,7 +83,7 @@ int	load_file_map(int fd)
 				game_exit();
 			}
 		}
-		str = get_next_line(fd);
+		get_next_line(fd, &str);
 	}
 	return (cheack_line(engine()->list, size - 2, '1'));
 }

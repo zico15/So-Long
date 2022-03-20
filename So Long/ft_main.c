@@ -6,7 +6,7 @@
 /*   By: edos-san <edos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 18:50:11 by edos-san          #+#    #+#             */
-/*   Updated: 2022/03/01 14:16:10 by edos-san         ###   ########.fr       */
+/*   Updated: 2022/03/08 20:56:28 by edos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,12 @@ void	game_exit(void)
 		}
 		ft_destroy_map(get_scene()->map);
 	}
+	free_ob((void **) &engine()->scene);
+	ft_printf("\nmalloc_ob: %i |free_ob: %i\n", \
+	engine()->malloc_ob, engine()->free_ob);
 	if (engine()->ptr && engine()->win)
 		mlx_destroy_window(engine()->ptr, engine()->win);
+	system("leaks -- so_long");
 	exit(-1);
 }
 
@@ -61,7 +65,9 @@ int	main(int argc, char **argv)
 		perror("invalid argument");
 		return (0);
 	}
-	instance_engine(argv[1]);
+	engine()->malloc_ob = 0;
+	engine()->free_ob = 0;
+	init_engine(argv[1]);
 	init_components(engine());
 	mlx_loop_hook(engine()->ptr, engine_loop, &fps);
 	mlx_loop(engine()->ptr);

@@ -6,7 +6,7 @@
 /*   By: edos-san <edos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 10:02:45 by edos-san          #+#    #+#             */
-/*   Updated: 2022/02/20 13:50:16 by edos-san         ###   ########.fr       */
+/*   Updated: 2022/03/04 20:52:42 by edos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char
 	data.size_buffer = -1;
 	data.line = line;
 	*size_line += size_buffer;
-	line = malloc(*size_line + 1 * sizeof(char));
+	line = malloc_ob("get_line", *size_line + 1 * sizeof(char));
 	if (line)
 	{
 		line[*size_line] = 0;
@@ -49,21 +49,21 @@ static char
 			buffer[data.size_line] = 0;
 		}
 	}
-	free(data.line);
+	free_ob((void **)&data.line);
 	return (line);
 }
 
-char	*get_next_line(int fd)
+int	get_next_line(int fd, char **line)
 {
 	static char	f[1000 + 1];
 	t_line		d;
 
-	d.line = NULL;
+	*line = NULL;
 	d.size_buffer = 0;
 	d.index = 1;
+	d.size_line = 0;
 	while (fd >= 0 && f[d.size_buffer])
 		d.size_buffer++;
-	d.size_line = 0;
 	while (fd >= 0 && d.index > 0)
 	{
 		if (!f[0] || !d.size_buffer)
@@ -76,10 +76,10 @@ char	*get_next_line(int fd)
 				d.size_buffer++;
 			d.index = (d.index == d.size_buffer);
 			d.size_buffer += f[d.size_buffer] == '\n';
-			d.line = get_line(d.line, f, d.size_buffer, &d.size_line);
+			*line = get_line(*line, f, d.size_buffer, &d.size_line);
 		}
 	}
-	return (d.line);
+	return (d.size_line);
 }
 
 int	file_clean(char *paths)
@@ -104,6 +104,6 @@ int	file_write(int fd, char *line, int is_free)
 		size++;
 	write (fd, line, size);
 	if (is_free && line)
-		free(line);
+		free_ob((void **)&line);
 	return (1);
 }

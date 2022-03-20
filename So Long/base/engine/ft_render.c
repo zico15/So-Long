@@ -6,7 +6,7 @@
 /*   By: edos-san <edos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 14:46:48 by edos-san          #+#    #+#             */
-/*   Updated: 2022/03/01 14:13:07 by edos-san         ###   ########.fr       */
+/*   Updated: 2022/03/04 21:38:18 by edos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_render_object(t_object *ob, void	*img)
 {
-	if (ob && img)
+	if (ob)
 	{
 		mlx_put_image_to_window(engine()->ptr,
 			engine()->win, img, (ob->x), ob->y);
@@ -60,22 +60,17 @@ void	ft_render_map_position(t_object *ob)
 
 void	ft_render_animation(t_object *ob)
 {
-	if (!ob)
-		return ;
-	ob->animator.time += 0.01;
-	if (ob->animator.time < ob->animator.time_max)
-		return ;
-	ob->animator.time = 0;
-	ft_printf("A\n");
 	if (ob->animator.animation && ob->animator.is_animation)
 	{
-		ft_printf("B\n");
+		ob->animator.animation->time += 0.01;
+		if (ob->animator.animation->time < ob->animator.animation->time_max)
+			return ;
+		ob->animator.animation->time = 0;
 		if (ob->animator.animation->img_selct)
 			ob->animator.animation->img_selct = ob->animator
 				.animation->img_selct->next;
 		if (!ob->animator.animation->img_selct)
 		{
-			ft_printf("C\n");
 			ob->animator.animation->img_selct = ob->animator.animation->img;
 			ob->animator.is_animation = ob->animator.animation->is_repeat;
 		}
@@ -83,6 +78,6 @@ void	ft_render_animation(t_object *ob)
 	}
 	else if (ob->animator.animation)
 		ob->render(ob, ob->animator.animation->img_selct);
-	else if (ob->sprite.imgs)
+	else
 		ob->render(ob, ob->animator.list[STOPPED].img);
 }

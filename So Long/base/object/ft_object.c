@@ -6,7 +6,7 @@
 /*   By: edos-san <edos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 20:46:32 by edos-san          #+#    #+#             */
-/*   Updated: 2022/03/01 14:05:16 by edos-san         ###   ########.fr       */
+/*   Updated: 2022/03/04 22:08:26 by edos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ static void	ft_destroy(t_object *ob)
 			mlx_destroy_image(engine()->ptr, ob->sprite.imgs[i]);
 		free_ob((void **) &ob->sprite.imgs);
 		free_ob((void **) &ob);
-		printf("destroy: ->object\n");
 	}
 }
 
@@ -73,12 +72,12 @@ t_object	*new_obj(char *path, int w, int h, t_type_object type)
 	t_object	*ob;
 
 	ob = malloc_ob("new_obj", sizeof(t_object));
-	ft_printf("new object-> %s\n", path);
 	ob->sprite.imgs = 0;
+	ob->sprite.size = 0;
 	ob->animator.is_animation = 0;
 	ob->animator.animation = 0;
 	ob->animator.type = NONE;
-	ob->render = ft_render_object;
+	ob->render = &ft_render_object;
 	ob->set_position = ft_set_position;
 	engine()->collectibles += (type == COLLECTIBLE);
 	ob->type = type;

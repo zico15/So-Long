@@ -6,7 +6,7 @@
 /*   By: edos-san <edos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 19:50:55 by edos-san          #+#    #+#             */
-/*   Updated: 2022/03/01 14:13:54 by edos-san         ###   ########.fr       */
+/*   Updated: 2022/03/04 20:55:12 by edos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	engine_loop(float	*fps)
 	return (*fps);
 }
 
-void	instance_engine(char *path)
+void	init_engine(char *path)
 {
 	int	fd;
 
@@ -73,5 +73,4 @@ void	instance_engine(char *path)
 	(engine()->win) = mlx_new_window(engine()->ptr,
 			engine()->width, engine()->height + 32, "SO LONG");
 	engine()->scene = 0;
-	ft_printf("instance engine\n");
 }

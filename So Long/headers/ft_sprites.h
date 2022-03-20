@@ -6,7 +6,7 @@
 /*   By: edos-san <edos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 19:26:59 by edos-san          #+#    #+#             */
-/*   Updated: 2022/02/27 13:14:48 by edos-san         ###   ########.fr       */
+/*   Updated: 2022/03/04 21:36:27 by edos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ typedef struct s_sprites
 typedef struct s_animaton
 {
 	struct s_mlx_img_list	*img;
+	int						time;
+	int						time_max;
 	struct s_mlx_img_list	*img_selct;
 	int						is_repeat;
 }	t_animation;
@@ -87,8 +89,6 @@ typedef struct s_animaton
 typedef struct s_animator
 {
 	t_type_animation	type;
-	int					time;
-	float				time_max;
 	float				is_animation;
 	struct s_animaton	*animation;
 	struct s_animaton	list[10];

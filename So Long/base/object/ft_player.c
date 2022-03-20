@@ -6,7 +6,7 @@
 /*   By: edos-san <edos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 21:13:34 by edos-san          #+#    #+#             */
-/*   Updated: 2022/03/01 13:47:18 by edos-san         ###   ########.fr       */
+/*   Updated: 2022/03/10 20:52:51 by edos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ void	teste(struct s_object *o);
 
 static int	input_key_up(int key, t_object *ob)
 {
-	if (key == 35)
-		teste(ob);
 	if (!engine()->is_load_full)
 		return (0);
 	if ((key == 13 || key == 1 || key == 0 || key == 2) && ob)
@@ -40,7 +38,8 @@ static void	updade(struct s_object *ob)
 {
 	if (engine()->sleep == 50)
 	{
-		ft_printf("engine()->sleep\n");
+		if (ob->animator.type != ATTACK_C)
+			ft_printf("engine()->player->sleep\n");
 		set_animation(ob, ATTACK_C);
 		engine()->sleep = 0;
 	}
@@ -55,10 +54,6 @@ static void	ft_set_position(t_object *ob, int x, int y)
 	if (!collision || (collision && (collision->type == EMPTY || \
 	collision->type == COLLECTIBLE)))
 	{
-		if (collision)
-		{
-			ft_printf("collision: type -> %i\n", collision->type);
-		}
 		if (collision && collision->type == COLLECTIBLE)
 			engine()->collected += get_scene()->remove(collision);
 		ob->x += x;
@@ -71,7 +66,6 @@ t_object	*new_player(char *path, int w, int h)
 {
 	t_object	*ob;
 
-	ft_printf("player: ");
 	ob = new_obj(path, w, h, PLAYER);
 	ob->updade = updade;
 	ob->set_position = ft_set_position;
