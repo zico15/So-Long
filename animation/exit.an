@@ -1,0 +1,10 @@
+STOPPED: 0;
+WALKING_W: none;
+WALKING_S: none;
+WALKING_A: none;
+WALKING_D: none;
+ATTACK_A: none;
+ATTACK_B: none;
+ATTACK_C: none;
+OPEN: 10,4,7,10;
+
