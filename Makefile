@@ -6,64 +6,69 @@
 #    By: edos-san <edos-san@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 18:43:51 by edos-san          #+#    #+#              #
-#    Updated: 2022/04/25 23:09:20 by edos-san         ###   ########.fr        #
+#    Updated: 2022/11/16 23:35:04 by edos-san         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS		= 		ft_main.c	\
-					./base/engine/ft_engine.c  \
-					./base/engine/ft_render.c  \
-					./base/engine/ft_scene.c  \
-					./base/engine/ft_map.c  \
-					./base/engine/ft_collision.c  \
-					./base/engine/ft_get_base.c  \
-					./base/array/ft_array.c  \
-					./base/array_malloc/ft_array_malloc.c  \
-					./base/array_malloc/ft_malloc.c  \
-					./base/file/ft_file.c  \
-					./base/img/ft_sprites.c	\
-					./base/img/ft_animation.c	\
-					./base/event/ft_events.c \
-					./base/object/ft_object.c \
-					./base/object/ft_player.c \
-					./base/object/ft_enemy.c \
-					./base/object/ft_exit.c \
-					./base/object/ft_title_map.c \
-					./base/object/ft_menu.c
+CC			= 	gcc-10 -Wall -Wextra -Werror  -g # -fsanitize=address
+RM			= 	/bin/rm -f
+NAME		= 	so_long
+INCLUDES	= 	-Iheaders/
+MILIB		=	-I /usr/X11/include -g -L /usr/X11/lib -l minilibx-linux -framework OpenGL -framework AppKit
 
-OBJS		= 		$(SRCS:.c=.o)
+SRCS		=   $(shell find src/ -name '*.c')
+OBJS		= 	$(SRCS:.c=.o)
 
 
-CC			= 		gcc -fsanitize=address -g
-CFLAGS		= 		-Wall -Wextra -Werror
-LIB			= 		ar rcs
-RM			= 		/bin/rm -f
-MILIB		=		-I /usr/X11/include -g -L /usr/X11/lib -l mlx -framework OpenGL -framework AppKit
-UTILLIB		=		util/libft.a
-UTILLIB2	=		util/libftprintf.a
-NAME		= 		so_long
+MLX_LIB_DIR = mlx_linux/
+#directories with .h
+LIBFT_INCLUDE = -ILIBFT/include
+MLX_INCLUDE = -Imlx_linux
 
-INCLUDE		= 		./headers
+COLOUR_GREEN=\033[7;1;32m
+COLOUR_END=\033[0m
+COLOUR_YELLOW=\033[7;1;33m
 
-all			:		$(NAME)
+MLX_FLAGS = -L$(MLX_LIB_DIR) -lmlx_Linux -L/usr/lib -lXext -lX11 -lm -lz
+
+# ^ primeira dependencia
+# @ nome da regra
+all: $(NAME)
+
+$(NAME): $(OBJS) 
+	@$(MAKE) -s -C mlx_linux
+	@$(CC) $(^) $(MLX_FLAGS) -o $(@)
+
+%.o: %.c $(MLX_LIB)
+	@$(CC) $(INCLUDES) $(MLX_INCLUDE) -c $(^) -o $(@)
+
+bonus: all
+
+clean:
+	@$(RM) $(OBJS)
+	@echo "\033[0;31mREMOVED OBJECT FILES\033[0m"
+
+fclean: clean
+	@$(RM) $(NAME)
+	@echo "\033[0;31mREMOVED cub3D EXECUTABLE\033[0m"
+
+re: fclean all
+
+norm :
+	@norminette -R CheckForbiddenSourceHeader $(SRCS) headers/
+
+m: fclean
+
+v:
+	@make re && make clean && clear && valgrind ./cub3D map/map1.cub
+
+vv:
+	@make re && make clean && clear && valgrind --leak-check=full --log-file="logfile.out" -v ./cub3D map/map14.cub
+r:
+	@make re && make clean && clear && ./cub3D map/map3.cub map/map1.cub map/map2.cub teste dfsdsdfsdfs/sasd
+
+rr:
+	@make re && make clean && clear && ./cub3D map/*
 
 
-$(NAME): $(OBJS) $(INCLUDE)
-	$(CC) $(UTILLIB) $(UTILLIB2) $(OBJS) -lmlx -framework OpenGL -framework AppKit -o $(NAME)
-
-
-%.o: %.c
-	$(CC) -Wall -Wextra -Werror -Imlx -c $< -o $@
-	
-n			: 
-					norminette
-
-clean		:
-					$(RM) $(OBJS)
-
-fclean		:		clean
-						$(RM) $(NAME)
-
-re			:		fclean all
-
-m			: 		clean fclean
+.PHONY: all re clean fclean m

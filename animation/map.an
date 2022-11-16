@@ -1,9 +1,0 @@
-EMPTY: 16;
-WALL: 46;
-COLLECTIBLE: 46;
-EXIT: 16;
-PLAYER: 16;
-ENEMY: 16;
-NONE: none;
-NONE: none;
-DEAD: none;
