@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-CC			= 	gcc-10 -Wall -Wextra -Werror  -g # -fsanitize=address
+CC			= 	gcc -Wall -Wextra -Werror  -g # -fsanitize=address
 RM			= 	/bin/rm -f
 NAME		= 	so_long
 INCLUDES	= 	-Iheaders/
