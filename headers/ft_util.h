@@ -6,7 +6,7 @@
 /*   By: edos-san <edos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 20:38:14 by edos-san          #+#    #+#             */
-/*   Updated: 2022/11/17 01:08:20 by edos-san         ###   ########.fr       */
+/*   Updated: 2022/11/17 01:37:38 by edos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@
 # include <mlx.h>
 # include <limits.h>
 # include <sys/time.h>
+# include <ft_this.h>
 # include <ft_base_array.h>
+
 
 # define BUFFER_SIZE 999999
 # define PI 3.14159265

@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "ft_object.h": "c",
+        "ft_object_util.h": "c",
+        "ft_util.h": "c"
+    }
+}

@@ -6,12 +6,11 @@
 /*   By: edos-san <edos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 16:13:48 by edos-san          #+#    #+#             */
-/*   Updated: 2022/11/16 23:43:09 by edos-san         ###   ########.fr       */
+/*   Updated: 2022/11/17 01:41:58 by edos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft_base_array.h>
-#include <ft_string.h>
 
 t_element	*__put_hasmap(char *key, void	*value)
 {

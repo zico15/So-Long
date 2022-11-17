@@ -19,6 +19,8 @@
 
 
 typedef struct s_element	t_element;
+typedef struct s_hasmap		t_hashmap;
+typedef struct s_array		t_array;
 
 
 
@@ -31,7 +33,7 @@ struct s_element
 	struct s_element	*next;
 };
 
-typedef struct s_array
+struct s_array
 {
 	t_element		*begin;
 	t_element		*end;
@@ -49,9 +51,9 @@ typedef struct s_array
 	void			**(*to_str)(void);
 	void			(*remove_value)(void *value);
 	void			(*remove_all)(void);
-}	t_array;
+};
 
-typedef struct s_hasmap
+struct s_hasmap
 {
 	t_array			*list;
 	int				(*size)(void);
@@ -63,16 +65,8 @@ typedef struct s_hasmap
 	int				(*destroy)();
 	void			(*for_each)(void (*fun)(t_element *e, void *v), void *o);
 	void			**(*to_str)(void);
-}	t_hashmap;
+};
 
-typedef struct s_this
-{
-	t_array			*array;
-	t_hashmap		*hashmap;
-}	t_this;
-
-//						this
-t_this					*fthis(void);
 
 void					*new_array(void);
 t_array					*array(t_array *this);
