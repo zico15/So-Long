@@ -6,7 +6,7 @@
 /*   By: edos-san <edos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 20:38:14 by edos-san          #+#    #+#             */
-/*   Updated: 2022/11/16 23:42:37 by edos-san         ###   ########.fr       */
+/*   Updated: 2022/11/17 00:34:04 by edos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,39 @@
 # define MINIMAP_FRAME 200
 
 
+typedef struct s_engine
+{
+	void	*mlx;
+	void	*win;
+	int		width;
+	int		height;
+
+} t_engine;
+
+typedef struct s_vector
+{
+	double		x;
+	double		y;
+	double		w;
+	double		h;
+}	t_vector;
+
+
+
 //			util
 char		*get_next_line(int fd);
 int			free_ob(void *v);
 int			free_list(void **values);
 void		*malloc_ob(size_t __size);
+
+//			vector
+t_vector	vector(double x, double y, double w, double h);
+int			vector_distance(t_vector a, t_vector b);
+t_vector	*new_vector(double x, double y);
+t_vector	vector_zero(void);
+t_vector	*copy_vector(t_vector *v);
+
+t_engine	*engine();
+t_engine 	*cread_engine(char *title);
+
 #endif

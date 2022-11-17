@@ -1,33 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_object.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edos-san <edos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/15 15:29:37 by edos-san          #+#    #+#             */
-/*   Updated: 2022/11/17 00:08:15 by edos-san         ###   ########.fr       */
+/*   Created: 2022/03/31 20:38:14 by edos-san          #+#    #+#             */
+/*   Updated: 2022/11/17 00:47:23 by edos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef FT_OBJECT_H
+#define FT_OBJECT_H
+
 #include <ft_util.h>
 
-int game_exit()
-{
-	
-	printf("exit\n");
-	exit(0);
-	return (0);
-}
+typedef struct s_buffer t_buffer;
 
-int	main(int argc, char **argv)
+typedef enum e_type
 {
-	t_engine *e;
+	OBJECT,
+	MAP,
+	SCENE,
+	PLAYER
+} t_type;
 
-	(void) argv;
-	if (argc < 2 || argc >= 50)
-		return (printf("ERROR ARG!\n"));
-	e = cread_engine("cub3D");
-	mlx_hook(e->win, 17, 0, game_exit, NULL);
-	return (mlx_loop(e->mlx));
-}
+typedef struct s_object
+{
+	t_type		type;
+	t_vector	vector;
+	void		(*render)(t_buffer *buffer);
+	void		(*update)();
+
+} t_object;
+
+#endif
