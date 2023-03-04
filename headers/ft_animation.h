@@ -6,13 +6,14 @@
 /*   By: edos-san <edos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 19:23:31 by edos-san          #+#    #+#             */
-/*   Updated: 2022/11/17 00:50:29 by edos-san         ###   ########.fr       */
+/*   Updated: 2023/03/04 00:52:51 by edos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_ANIMATION_H
 # define FT_ANIMATION_H
 
+typedef struct s_sprite	t_sprite;
 
 typedef struct s_animation
 {
@@ -22,6 +23,7 @@ typedef struct s_animation
 	int			is_repeat;
 	double		time;
 	double		time_delay;
+	t_sprite	*sprite;
 }	t_animation;
 /*
 typedef struct s_fanimation

@@ -6,86 +6,88 @@
 /*   By: edos-san <edos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 15:14:35 by edos-san          #+#    #+#             */
-/*   Updated: 2022/11/17 00:46:22 by edos-san         ###   ########.fr       */
+/*   Updated: 2023/03/04 02:41:28 by edos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft_canva.h>
 
-t_buffer *__canva(void);
-void __image_pos(t_sprite *sprite, int x, int y);
-void __draw_line(t_vector begin, t_vector end, int color);
-void __image_resize(t_sprite *sprite, double width, double height);
-void __rectangle(t_vector v, int color);
-void __rectangle_border(t_vector v, int color, int border, int color_border);
-void __pixel(int x, int y, int color);
-int __get_color_img(t_data data, int x, int y);
-void __image(t_sprite *sprite);
-void __image_sub(t_sprite *sprite, t_vector sub);
+void		__image_pos(t_sprite *sprite, int x, int y);
+void		__draw_line(t_vector begin, t_vector end, int color);
+void		__image_resize(t_sprite *sprite, double width, double height);
+void		__rectangle(t_vector v, int color);
+void		__rectangle_border(t_vector v, int color, int border, \
+int color_border);
+bool		__pixel(int x, int y, int color);
+void		__image(t_sprite *sprite, int x, int y);
+void		__image_sub(t_sprite *sprite, int x, int y, t_vector v1);
+int			__get_color(t_sprite *sprite, int x, int y);
 
-t_buffer *__canva(void)
+t_sprite	*__load(char *filename)
 {
-	static t_buffer b;
+	t_sprite	*sprite;
 
-	b.buffer = mlx_new_image(engine()->mlx, engine()->width, engine()->height);
-	b.data.img = b.buffer;
-	b.data.addr = mlx_get_data_addr(b.data.img, &b.data.bits_per_pixel,
-									&b.data.line_length, &b.data.endian);
-	b.rectangle = __rectangle;
-	b.pixel = __pixel;
-	b.get_color_img = __get_color_img;
-	b.image = __image;
-	b.image_sub = __image_sub;
-	b.rectangle_border = __rectangle_border;
-	b.image_pos = __image_pos;
-	b.image_resize = __image_resize;
+	sprite = malloc_ob(sizeof(t_sprite));
+	sprite->img = mlx_xpm_file_to_image(engine()->mlx, filename, \
+	&sprite->width, &sprite->height);
+	sprite->addr = mlx_get_data_addr(sprite->img, &sprite->bits_per_pixel, \
+	&sprite->line_length, &sprite->endian);
+	return (sprite);
+}
+
+t_buffer	*canva(void)
+{
+	static t_buffer	b;
+
 	return (&b);
 }
 
-void __pixel(int x, int y, int color)
+void	init_canva(void)
 {
-	char *dst;
-	t_data *data;
+	canva()->data.width = engine()->width;
+	canva()->data.height = engine()->height;
+	(canva()->data.img) = mlx_new_image(engine()->mlx, engine()->width, \
+	engine()->height);
+	(canva()->data.addr) = mlx_get_data_addr(canva()->data.img, \
+	&canva()->data.bits_per_pixel, \
+	&canva()->data.line_length, &canva()->data.endian);
+	canva()->rectangle = __rectangle;
+	canva()->pixel = __pixel;
+	canva()->image = __image;
+	canva()->image_sub = __image_sub;
+	canva()->rectangle_border = __rectangle_border;
+	canva()->image_pos = __image_pos;
+	canva()->image_resize = __image_resize;
+	canva()->get_color = __get_color;
+	canva()->load = __load;
+}
 
-	if (color == COLOR_TRANSPARENT || (x >= engine()->width || y >= engine()->height))
-		return;
-	data = &(__canva()->data);
+
+/**
+ * retorna false se possicao x ou y estiver fora da canva
+ * **/
+bool	__pixel(int x, int y, int color)
+{
+	char		*dst;
+	t_sprite	*data;
+
+	if (color == COLOR_TRANSPARENT)
+		return (true);
+	if (x >= canva()->data.width || x < 0 || y < 0 || y >= canva()->data.height)
+		return (false);
+	data = &(canva()->data);
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
+	return (true);
 }
 
-int __get_color_img(t_data data, int x, int y)
+int	__get_color(t_sprite *sprite, int x, int y)
 {
-	char *dst;
-	int color;
+	char	*dst;
+	int		color;
 
-	dst = data.addr + (y * data.line_length + x * (data.bits_per_pixel / 8));
-	color = *(unsigned int *)dst;
-	return (color);
-}
-
-int __get_color(void *img, int x, int y)
-{
-	char *dst;
-	int color;
-	t_data data;
-
-	data.img = img;
-	data.addr = mlx_get_data_addr(data.img, &data.bits_per_pixel,
-								  &data.line_length, &data.endian);
-	dst = data.addr + (y * data.line_length + x * (data.bits_per_pixel / 8));
-	color = *(unsigned int *)dst;
-	return (color);
-}
-
-int __get_color_sprite(t_sprite *sprite, int x, int y)
-{
-	char *dst;
-	int color;
-
-	if (x >= sprite->v.w || y >= sprite->v.h || x < 0 || y < 0)
-		return (COLOR_TRANSPARENT);
-	dst = sprite->data.addr + (y * sprite->data.line_length + x * (sprite->data.bits_per_pixel / 8));
+	dst = sprite->addr + (y * sprite->line_length + x * \
+	(sprite->bits_per_pixel / 8));
 	color = *(unsigned int *)dst;
 	return (color);
 }

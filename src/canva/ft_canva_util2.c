@@ -6,15 +6,14 @@
 /*   By: edos-san <edos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 18:34:45 by nprimo            #+#    #+#             */
-/*   Updated: 2022/11/17 00:42:21 by edos-san         ###   ########.fr       */
+/*   Updated: 2023/03/04 02:09:21 by edos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft_canva.h>
 
-int __get_color_sprite(t_sprite *sprite, int x, int y);
-void __pixel(int x, int y, int color);
-int __get_color_img(t_data data, int x, int y);
+bool	__pixel(int x, int y, int color);
+int		__get_color(t_sprite *sprite, int x, int y);
 
 void	__rectangle(t_vector v, int color)
 {
@@ -63,15 +62,16 @@ void	__image_resize(t_sprite *sprite, double width, double height)
 
 	v.y = 0;
 	y = -1;
-	v.w = ((double) sprite->v.w / width);
-	v.h = ((double) sprite->v.h / height);
+	v.w = ((double) sprite->width / width);
+	v.h = ((double) sprite->height / height);
 	while (++y < (int) height)
 	{
 		v.x = 0;
 		x = -1;
 		while (++x < (int) width)
 		{
-			__pixel(x, y, __get_color_sprite(sprite, (int) v.x, v.y));
+			if (__pixel(x, y, __get_color(sprite, (int) v.x, v.y)) == false)
+				break ;
 			v.x += v.w;
 		}
 		v.y += v.h;
@@ -84,13 +84,13 @@ void	__image_pos(t_sprite *sprite, int x1, int y1)
 	int		y;
 
 	y = -1;
-	while (++y < sprite->v.h)
+	while (++y < sprite->height)
 	{
 		x = -1;
-		while (++x < sprite->v.w)
+		while (++x < sprite->width)
 		{
 			__pixel(x1 + x, y1 + y, \
-			__get_color_img(sprite->data, x, y));
+			__get_color(sprite, x, y));
 		}
 	}
 }

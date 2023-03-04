@@ -6,7 +6,7 @@
 /*   By: edos-san <edos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 20:38:14 by edos-san          #+#    #+#             */
-/*   Updated: 2022/11/17 01:37:38 by edos-san         ###   ########.fr       */
+/*   Updated: 2023/03/04 02:59:09 by edos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <limits.h>
 # include <sys/time.h>
 # include <ft_this.h>
+# include <stdbool.h>
 # include <ft_base_array.h>
 
 
@@ -49,15 +50,21 @@
 # define COLOR_TRANSPARENT 0xd411aa
 # define MINIMAP_FRAME 200
 
+typedef struct s_scene	t_scene;
+
 
 typedef struct s_engine
 {
-	void	*mlx;
-	void	*win;
-	int		width;
-	int		height;
+	void		*mlx;
+	void		*win;
+	int			width;
+	int			height;
+	t_scene		*scene;
+	int			is_key_press;
+	int			is_mouse_press;
+	char		keys[75000];
 
-} t_engine;
+}	t_engine;
 
 typedef struct s_vector
 {
@@ -82,7 +89,8 @@ t_vector	*new_vector(double x, double y);
 t_vector	vector_zero(void);
 t_vector	*copy_vector(t_vector *v);
 
-t_engine	*engine();
-t_engine 	*cread_engine(char *title);
+t_engine	*engine(void);
+t_scene		*scene(void);
+t_engine	*cread_engine(char *title, int width, int height);
 
 #endif

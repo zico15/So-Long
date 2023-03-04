@@ -6,16 +6,15 @@
 /*   By: edos-san <edos-san@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 01:24:23 by edos-san          #+#    #+#             */
-/*   Updated: 2022/11/17 01:44:55 by edos-san         ###   ########.fr       */
+/*   Updated: 2023/03/04 01:56:53 by edos-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft_object_util.h>
 
-
-t_object *this()
+t_object	*this(void)
 {
-    return (fthis()->object);
+	return (fthis()->object);
 }
 
 void	*new_object_instance(size_t size)
